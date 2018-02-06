@@ -1,7 +1,8 @@
-﻿namespace Identity.API
+﻿namespace mCore.Services.Identity.API
 {
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Configuration;
 
     public class Program
     {
@@ -13,6 +14,10 @@
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .ConfigureAppConfiguration((builderContext, config) =>
+                {
+                    config.AddEnvironmentVariables();
+                })
                 .Build();
     }
 }

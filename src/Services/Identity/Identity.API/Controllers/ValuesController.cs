@@ -1,4 +1,4 @@
-﻿namespace Identity.API.Controllers
+﻿namespace mCore.Services.Identity.API.Controllers
 {
     using System.Collections.Generic;
     using Microsoft.AspNetCore.Mvc;
