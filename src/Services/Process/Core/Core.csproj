@@ -5,4 +5,10 @@
     <RootNamespace>mCore.Services.Process.Core</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Engine\" />
+    <Folder Include="Runtime\" />
+    <Folder Include="Event\" />
+  </ItemGroup>
+
 </Project>
