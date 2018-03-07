@@ -1,10 +1,9 @@
 ﻿namespace mCore.Domain.Repositories
 {
     using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
     using System.Linq;
     using System.Linq.Expressions;
+    using System.Threading.Tasks;
     using mCore.Domain.Entities;
 
     public interface IRepository<TEntity> 

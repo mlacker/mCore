@@ -5,8 +5,8 @@ namespace mCore.Application
 
     public abstract class ApplicationService
     {
-        protected ApplicationService() {}
-        
+        protected ApplicationService() { }
+
         protected IUnitOfWork UnitOfWork { get; set; }
 
         protected ILogger Logger { get; set; }

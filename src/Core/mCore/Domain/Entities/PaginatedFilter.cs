@@ -1,7 +1,6 @@
 namespace mCore.Domain.Entities
 {
     using System.Collections.Generic;
-    using mCore.Exception;
 
     public enum PaginatedFilterOrder
     {

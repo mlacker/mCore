@@ -6,6 +6,16 @@
     {
         public Guid Id { get; set; }
 
+        public static bool operator ==(Entity left, Entity right)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool operator !=(Entity left, Entity right)
+        {
+            throw new NotImplementedException();
+        }
+
         public override bool Equals(object obj)
         {
             return obj != null
@@ -16,16 +26,6 @@
         public override int GetHashCode()
         {
             return base.GetHashCode();
-        }
-
-        public static bool operator ==(Entity left, Entity right)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static bool operator !=(Entity left, Entity right)
-        {
-            throw new NotImplementedException();
         }
     }
 }
