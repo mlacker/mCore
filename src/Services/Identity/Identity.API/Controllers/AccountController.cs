@@ -12,18 +12,21 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class AccountController : Controller
     {
         private readonly ILoginService<ApplicationUser> loginService;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IMapper mapper;
 
         public AccountController(
             ILoginService<ApplicationUser> loginService,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            IMapper mapper)
         {
             this.loginService = loginService;
             this.userManager = userManager;
+            this.mapper = mapper;
         }
 
         [HttpPost]
@@ -56,7 +59,7 @@
             return BadRequest(ModelState);
         }
 
-        [HttpGet]
+        [HttpPost]
         public async Task Logout()
         {
             // delete authentication cookie
@@ -71,7 +74,7 @@
         {
             if (ModelState.IsValid)
             {
-                var user = Mapper.Map<ApplicationUser>(model);
+                var user = mapper.Map<ApplicationUser>(model);
 
                 var result = await userManager.CreateAsync(user, model.Password);
 
@@ -84,9 +87,11 @@
 
                     return BadRequest(ModelState);
                 }
+
+                return Ok();
             }
 
-            return Ok();
+            return BadRequest(ModelState);
         }
     }
 }

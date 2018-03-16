@@ -5,11 +5,11 @@
     public class LoginViewModel
     {
         [Required]
-        public string Username { get; private set; }
+        public string Username { get; set; }
 
         [Required]
-        public string Password { get; private set; }
+        public string Password { get; set; }
 
-        public bool RememberMe { get; private set; }
+        public bool RememberMe { get; set; }
     }
 }

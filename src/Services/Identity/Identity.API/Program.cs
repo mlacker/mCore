@@ -1,5 +1,6 @@
 ﻿namespace mCore.Services.Identity.API
 {
+    using mCore.Services.Identity.API.Data;
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
