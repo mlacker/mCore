@@ -1,4 +1,4 @@
-namespace mCore.Exception
+namespace mCore.Exceptions
 {
     using System;
 
