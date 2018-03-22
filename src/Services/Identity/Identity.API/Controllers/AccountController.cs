@@ -9,6 +9,7 @@
     using mCore.Services.Identity.API.Models.AccountViewModels;
     using mCore.Services.Identity.API.Services;
     using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
@@ -30,7 +31,9 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        [ProducesResponseType(302)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> Login([FromBody]LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -60,6 +63,7 @@
         }
 
         [HttpPost]
+        [ProducesResponseType(302)]
         public async Task Logout()
         {
             // delete authentication cookie
@@ -70,7 +74,9 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> Register([FromBody]RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -92,6 +98,14 @@
             }
 
             return BadRequest(ModelState);
+        }
+
+        [HttpGet]
+        [Authorize]
+        [ProducesResponseType(200)]
+        public async Task<IActionResult> Claims()
+        {
+            return Ok(User.Claims.Select(m => new { m.Type, m.Value }));
         }
     }
 }
