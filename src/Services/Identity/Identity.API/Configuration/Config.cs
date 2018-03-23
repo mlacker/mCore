@@ -26,8 +26,20 @@ namespace mCore.Services.Identity.API.Configuration
         }
 
         // clients want to access resources (aka scopes)
-        public static IEnumerable<Client> GetClients(Dictionary<string, string> clientsUrl)
+        public static IEnumerable<Client> GetClients()
         {
+            //callbacks urls from config:
+            var clientsUrl = new Dictionary<string, string>
+            {
+                {"Mvc", "http://localhost:5000"},
+                {"Spa", "http://localhost:8080"},
+                //{"Xamarin", Configuration.GetValue<string>("XamarinCallback")},
+                //{"LocationsApi", Configuration.GetValue<string>("LocationApiClient")},
+                //{"MarketingApi", Configuration.GetValue<string>("MarketingApiClient")},
+                //{"BasketApi", Configuration.GetValue<string>("BasketApiClient")},
+                //{"OrderingApi", Configuration.GetValue<string>("OrderingApiClient")}
+            };
+
             // client credentials client
             return new List<Client>
             {
@@ -35,17 +47,18 @@ namespace mCore.Services.Identity.API.Configuration
                 new Client
                 {
                     ClientId = "js",
-                    ClientName = "eShop SPA OpenId Client",
+                    ClientName = "JavaScript Client",
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
-                    RedirectUris =           { $"{clientsUrl["Spa"]}/" },
+                    RedirectUris =           { $"http://localhost:8080/callback" },
                     RequireConsent = false,
-                    PostLogoutRedirectUris = { $"{clientsUrl["Spa"]}/" },
-                    AllowedCorsOrigins =     { $"{clientsUrl["Spa"]}" },
+                    PostLogoutRedirectUris = { $"http://localhost:8080/" },
+                    AllowedCorsOrigins =     { $"http://localhost:8080" },
                     AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
+                        "process",
                         "orders",
                         "basket",
                         "locations",

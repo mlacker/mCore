@@ -14,7 +14,8 @@
     <input v-model="user.RememberMe" type="checkbox" />
   </div>
   <div>
-    <button>Login</button>
+    <button type="button" @click="login">Login</button>
+    <button type="button" @click="logout">Logout</button>
   </div>
 </form>
 </template>
@@ -29,19 +30,23 @@ export default {
         Password: '',
         RememberMe: false,
         ReturnUrl: ''
-      }
+      },
+      userManager: {}
     }
   },
   mounted () {
     this.user.ReturnUrl = this.$route.query['returnUrl']
   },
   methods: {
-    submit () {
+    login () {
       this.$http.post('/api/account/login', this.user).then(res => {
         if (res.ok) {
           this.$router.push('Index')
         }
       })
+    },
+    logout () {
+      this.$root.$userManager.signoutRedirect()
     }
   }
 }

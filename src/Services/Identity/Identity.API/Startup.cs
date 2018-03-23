@@ -50,23 +50,15 @@
 
             services.AddMvc();
 
-            //callbacks urls from config:
-            var clientUrls = new Dictionary<string, string>
+            services.AddIdentityServer(config =>
             {
-                {"Mvc", Configuration.GetValue<string>("MvcClient")},
-                {"Spa", Configuration.GetValue<string>("SpaClient")},
-                {"Xamarin", Configuration.GetValue<string>("XamarinCallback")},
-                {"LocationsApi", Configuration.GetValue<string>("LocationApiClient")},
-                {"MarketingApi", Configuration.GetValue<string>("MarketingApiClient")},
-                {"BasketApi", Configuration.GetValue<string>("BasketApiClient")},
-                {"OrderingApi", Configuration.GetValue<string>("OrderingApiClient")}
-            };
-            services.AddIdentityServer()
+                config.UserInteraction.LoginUrl = "http://localhost:8080/#/account/login";
+            })
                 .AddDeveloperSigningCredential()
                 .AddInMemoryPersistedGrants()
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryApiResources(Config.GetApiResources())
-                .AddInMemoryClients(Config.GetClients(clientUrls))
+                .AddInMemoryClients(Config.GetClients())
                 .AddAspNetIdentity<ApplicationUser>()
                 .Services.AddTransient<IProfileService, ProfileService>();
 
@@ -112,7 +104,7 @@
                 await next();
             });
 
-            app.UseMvc();
+            app.UseMvcWithDefaultRoute();
         }
     }
 }

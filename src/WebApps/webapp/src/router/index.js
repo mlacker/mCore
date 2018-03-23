@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
 import Index from '@/components/Index'
 import Claims from '@/components/account/Claims'
 import Login from '@/components/account/Login'
