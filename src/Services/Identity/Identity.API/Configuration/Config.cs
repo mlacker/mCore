@@ -31,13 +31,8 @@ namespace mCore.Services.Identity.API.Configuration
             //callbacks urls from config:
             var clientsUrl = new Dictionary<string, string>
             {
-                {"Mvc", "http://localhost:5000"},
                 {"Spa", "http://localhost:8080"},
-                //{"Xamarin", Configuration.GetValue<string>("XamarinCallback")},
-                //{"LocationsApi", Configuration.GetValue<string>("LocationApiClient")},
-                //{"MarketingApi", Configuration.GetValue<string>("MarketingApiClient")},
-                //{"BasketApi", Configuration.GetValue<string>("BasketApiClient")},
-                //{"OrderingApi", Configuration.GetValue<string>("OrderingApiClient")}
+                {"ProcessApi", "http://localhost:5001"},
             };
 
             // client credentials client
@@ -50,104 +45,17 @@ namespace mCore.Services.Identity.API.Configuration
                     ClientName = "JavaScript Client",
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
-                    RedirectUris =           { $"http://localhost:8080/callback" },
+                    RedirectUris =           { $"{clientsUrl["Spa"]}/callback" },
                     RequireConsent = false,
-                    PostLogoutRedirectUris = { $"http://localhost:8080/" },
-                    AllowedCorsOrigins =     { $"http://localhost:8080" },
+                    PostLogoutRedirectUris = { $"{clientsUrl["Spa"]}/" },
+                    AllowedCorsOrigins =     { $"{clientsUrl["Spa"]}" },
                     AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
                         "process",
-                        "orders",
-                        "basket",
-                        "locations",
-                        "marketing"
                     }
-                },
-                new Client
-                {
-                    ClientId = "mvc",
-                    ClientName = "MVC Client",
-                    ClientSecrets = new List<Secret>
-                    {
-                        new Secret("secret".Sha256())
-                    },
-                    ClientUri = $"{clientsUrl["Mvc"]}",                             // public uri of the client
-                    AllowedGrantTypes = GrantTypes.Hybrid,
-                    AllowAccessTokensViaBrowser = false,
-                    RequireConsent = false,
-                    AllowOfflineAccess = true,
-                    AlwaysIncludeUserClaimsInIdToken = true,
-                    RedirectUris = new List<string>
-                    {
-                        $"{clientsUrl["Mvc"]}/signin-oidc"
-                    },
-                    PostLogoutRedirectUris = new List<string>
-                    {
-                        $"{clientsUrl["Mvc"]}/signout-callback-oidc"
-                    },
-                    AllowedScopes = new List<string>
-                    {
-                        IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile,
-                        IdentityServerConstants.StandardScopes.OfflineAccess,
-                        "orders",
-                        "basket",
-                        "locations",
-                        "marketing"
-                    },
-                },
-                new Client
-                {
-                    ClientId = "client",
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
-
-                    ClientSecrets =
-                    {
-                        new Secret("secret".Sha256())
-                    },
-                    AllowedScopes = { "api1" }
-                },
-
-                // resource owner password grant client
-                new Client
-                {
-                    ClientId = "ro.client",
-                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-
-                    ClientSecrets =
-                    {
-                        new Secret("secret".Sha256())
-                    },
-                    AllowedScopes = { "api1" }
-                },
-
-                //// OpenID Connect hybrid flow and client credentials client (MVC)
-                //new Client
-                //{
-                //    ClientId = "mvc",
-                //    ClientName = "MVC Client",
-                //    AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
-
-                //    RequireConsent = false,
-
-                //    ClientSecrets =
-                //    {
-                //        new Secret("secret".Sha256())
-                //    },
-
-                //    RedirectUris = { "http://localhost:5002/signin-oidc" },
-                //    PostLogoutRedirectUris = { "http://localhost:5002/signout-callback-oidc" },
-
-                //    AllowedScopes =
-                //    {
-                //        IdentityServerConstants.StandardScopes.OpenId,
-                //        IdentityServerConstants.StandardScopes.Profile,
-                //        "api1"
-                //    },
-                //    AllowOfflineAccess = true
-                //}
+                }
             };
         }
     }
