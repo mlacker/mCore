@@ -21,16 +21,15 @@ new Vue({
 
       Vue.config.productionTip = false
 
-      Vue.http.interceptors.push(function (request) {
+      Vue.http.interceptors.push((request) => {
         // return response callback
-        return function (response) {
+        return (response) => {
           switch (response.status) {
             case 400:
               console.error(response.body)
               break
             case 401:
               this.$root.$userManager.signinRedirect()
-              //   this.$router.push('Login')
               break
           }
         }
@@ -39,7 +38,7 @@ new Vue({
       this.$userManager = new Oidc.UserManager({
         authority: 'http://localhost:5000',
         client_id: 'js',
-        redirect_uri: 'http://localhost:8080/callback',
+        redirect_uri: 'http://localhost:8080/#/callback?',
         response_type: 'id_token token',
         scope: 'openid profile process',
         post_logout_redirect_uri: 'http://localhost:8080/'

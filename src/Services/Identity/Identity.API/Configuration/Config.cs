@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using IdentityServer4;
 using IdentityServer4.Models;
+using IdentityServer4.Test;
 
 namespace mCore.Services.Identity.API.Configuration
 {
@@ -45,16 +47,38 @@ namespace mCore.Services.Identity.API.Configuration
                     ClientName = "JavaScript Client",
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
-                    RedirectUris =           { $"{clientsUrl["Spa"]}/callback" },
-                    RequireConsent = false,
+
+                    RedirectUris =           { $"{clientsUrl["Spa"]}/#/callback?" },
                     PostLogoutRedirectUris = { $"{clientsUrl["Spa"]}/" },
                     AllowedCorsOrigins =     { $"{clientsUrl["Spa"]}" },
+
+                    RequireConsent = false,
+
                     AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
                         "process",
                     }
+                }
+            };
+        }
+
+        internal static List<TestUser> GetUsers()
+        {
+            return new List<TestUser>
+            {
+                new TestUser
+                {
+                    SubjectId = "1",
+                    Username = "alice",
+                    Password = "password"
+                },
+                new TestUser
+                {
+                    SubjectId = "2",
+                    Username = "bob",
+                    Password = "password"
                 }
             };
         }

@@ -17,6 +17,11 @@
     <button type="button" @click="login">Login</button>
     <button type="button" @click="logout">Logout</button>
   </div>
+  <ul class="message">
+    <li v-for="(item, key) in page.error" :key="key">
+      {{ item }}
+    </li>
+  </ul>
 </form>
 </template>
 
@@ -31,7 +36,9 @@ export default {
         RememberMe: false,
         ReturnUrl: ''
       },
-      userManager: {}
+      page: {
+        error: []
+      }
     }
   },
   mounted () {
@@ -39,11 +46,16 @@ export default {
   },
   methods: {
     login () {
-      this.$http.post('/api/account/login', this.user).then(res => {
-        if (res.ok) {
-          this.$router.push('Index')
-        }
-      })
+      this.$root.$userManager.signinRedirect()
+      // this.$http.post('/api/account/login', this.user).then(res => {
+      //   if (res.ok) {
+      //     this.$router.push('Index')
+      //   }
+      // }, (res) => {
+      //   if (res.status === 400) {
+      //     this.page.error = res.body
+      //   }
+      // })
     },
     logout () {
       this.$root.$userManager.signoutRedirect()

@@ -30,4 +30,8 @@
     <ProjectReference Include="..\..\..\Core\mCore\mCore.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
 </Project>

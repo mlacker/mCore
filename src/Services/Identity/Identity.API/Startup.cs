@@ -52,14 +52,15 @@
 
             services.AddIdentityServer(config =>
             {
-                config.UserInteraction.LoginUrl = "http://localhost:8080/#/account/login";
+                //config.UserInteraction.LoginUrl = "http://localhost:8080/#/account/login";
             })
                 .AddDeveloperSigningCredential()
                 .AddInMemoryPersistedGrants()
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryApiResources(Config.GetApiResources())
                 .AddInMemoryClients(Config.GetClients())
-                .AddAspNetIdentity<ApplicationUser>()
+                .AddTestUsers(Config.GetUsers())
+                //.AddAspNetIdentity<ApplicationUser>()
                 .Services.AddTransient<IProfileService, ProfileService>();
 
             services.AddAutoMapper();
@@ -87,9 +88,9 @@
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseStaticFiles();
-
             app.UseIdentityServer();
+
+            app.UseStaticFiles();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
