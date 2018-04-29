@@ -4,17 +4,21 @@ VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B1527069-FCE8-49E4-8A28-DE6E91A1C0D5}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{B2BC3329-493F-4261-A108-AE4093582A88}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web Apps", "Web Apps", "{E46C29D5-1D22-45AE-B850-A4EDF9AE8792}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingBlocks", "{0D1BD1A9-C094-4FBE-861A-61288BF1C50C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{1FF80C3D-ED11-4CFB-A65F-311F3891DE35}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{232CCF99-0343-48F7-AC94-9D704C6384AB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mCore", "src\Core\mCore\mCore.csproj", "{E194AA86-F3B0-465C-85A0-E6B55F188750}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{B2BC3329-493F-4261-A108-AE4093582A88}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{337AE9B1-9E76-45BB-A474-3B2A995239B3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.API", "src\Services\Identity\Identity.API\Identity.API.csproj", "{A4A1FE50-E5B9-4F91-A4C6-0C8B13544E5A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServer", "src\Services\Identity\IdentityServer\IdentityServer.csproj", "{8A619F9C-43CF-495A-BA13-783F2FE462F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityClient", "src\Services\Identity\IdentityClient\IdentityClient.csproj", "{6636A994-50C9-4AE2-9E28-311013C06AC7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Process", "Process", "{4F7558AF-9AF5-4A92-95C0-C88B57FC75A6}"
 EndProject
@@ -24,19 +28,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "src\Services\Proces
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "src\Services\Process\Infrastructure\Infrastructure.csproj", "{35DBDD24-9BE5-4071-8FAB-377296238542}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{232CCF99-0343-48F7-AC94-9D704C6384AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expressions", "src\Services\Expressions\Expressions.csproj", "{BA6DB00C-3C75-4CD7-88B9-69A33B133FED}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mCore", "src\Core\mCore\mCore.csproj", "{E194AA86-F3B0-465C-85A0-E6B55F188750}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web Apps", "Web Apps", "{E46C29D5-1D22-45AE-B850-A4EDF9AE8792}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "webapp", "src\WebApps\webapp\webapp.csproj", "{56992793-5AB6-454E-84C7-0BE3BAE2AD57}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expressions", "src\Services\Expressions\Expressions.csproj", "{BA6DB00C-3C75-4CD7-88B9-69A33B133FED}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{1FF80C3D-ED11-4CFB-A65F-311F3891DE35}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{06768646-114D-4E64-950A-3A6425510378}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expressions.Tests", "test\Services\Expressions.Tests\Expressions.Tests.csproj", "{67E12842-4E71-4C40-85F9-2348923261AC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServer", "src\Services\Identity\IdentityServer\IdentityServer.csproj", "{8A619F9C-43CF-495A-BA13-783F2FE462F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -156,6 +158,18 @@ Global
 		{8A619F9C-43CF-495A-BA13-783F2FE462F3}.Release|x64.Build.0 = Release|Any CPU
 		{8A619F9C-43CF-495A-BA13-783F2FE462F3}.Release|x86.ActiveCfg = Release|Any CPU
 		{8A619F9C-43CF-495A-BA13-783F2FE462F3}.Release|x86.Build.0 = Release|Any CPU
+		{6636A994-50C9-4AE2-9E28-311013C06AC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6636A994-50C9-4AE2-9E28-311013C06AC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6636A994-50C9-4AE2-9E28-311013C06AC7}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6636A994-50C9-4AE2-9E28-311013C06AC7}.Debug|x64.Build.0 = Debug|Any CPU
+		{6636A994-50C9-4AE2-9E28-311013C06AC7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6636A994-50C9-4AE2-9E28-311013C06AC7}.Debug|x86.Build.0 = Debug|Any CPU
+		{6636A994-50C9-4AE2-9E28-311013C06AC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6636A994-50C9-4AE2-9E28-311013C06AC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6636A994-50C9-4AE2-9E28-311013C06AC7}.Release|x64.ActiveCfg = Release|Any CPU
+		{6636A994-50C9-4AE2-9E28-311013C06AC7}.Release|x64.Build.0 = Release|Any CPU
+		{6636A994-50C9-4AE2-9E28-311013C06AC7}.Release|x86.ActiveCfg = Release|Any CPU
+		{6636A994-50C9-4AE2-9E28-311013C06AC7}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -177,6 +191,7 @@ Global
 		{06768646-114D-4E64-950A-3A6425510378} = {1FF80C3D-ED11-4CFB-A65F-311F3891DE35}
 		{67E12842-4E71-4C40-85F9-2348923261AC} = {06768646-114D-4E64-950A-3A6425510378}
 		{8A619F9C-43CF-495A-BA13-783F2FE462F3} = {337AE9B1-9E76-45BB-A474-3B2A995239B3}
+		{6636A994-50C9-4AE2-9E28-311013C06AC7} = {337AE9B1-9E76-45BB-A474-3B2A995239B3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B606C46C-5C9C-4401-9C81-6192E745B94A}
