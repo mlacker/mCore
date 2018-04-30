@@ -60,6 +60,27 @@ namespace mCore.Services.IdentityServer
                         "process"
                     },
                     AllowOfflineAccess = true
+                },
+
+                // JavaScript Client
+                new Client
+                {
+                    ClientId = "js",
+                    ClientName = "JavaScript Client",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowAccessTokensViaBrowser = true,
+
+                    RedirectUris = { "http://localhost:8080/#/callback?" },
+                    PostLogoutRedirectUris = { "http://localhost:8080/#/" },
+                    AllowedCorsOrigins = { "http://localhost:8080" },
+
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email,
+                        "process"
+                    }
                 }
             };
         }

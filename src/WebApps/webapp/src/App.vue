@@ -1,16 +1,27 @@
 <template>
   <div id="app">
-    <router-link to="/">Index</router-link>
-    <router-link to="/account/claims">Claims</router-link>
-    <router-link to="/account/login">LogIn</router-link>
-    <router-link to="/account/register">Register</router-link>
-    <router-view/>
+    <header>
+      <nav>
+        <router-link to="/">Index</router-link>
+        <router-link to="/account/claims">Claims</router-link>
+        <router-link to="/account/register">Register</router-link>
+      </nav>
+      <Login></Login>
+    </header>
+    <main>
+      <router-view/>
+    </main>
   </div>
 </template>
 
 <script>
+import Login from '@/components/account/Login'
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    Login
+  }
 }
 </script>
 
@@ -19,7 +30,6 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
   margin-top: 60px;
 }

@@ -41,7 +41,7 @@ new Vue({
         redirect_uri: 'http://localhost:8080/#/callback?',
         response_type: 'id_token token',
         scope: 'openid profile process',
-        post_logout_redirect_uri: 'http://localhost:8080/'
+        post_logout_redirect_uri: 'http://localhost:8080/#/'
       })
 
       this.$userManager.getUser().then(user => {

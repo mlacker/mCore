@@ -1,18 +1,14 @@
 <template>
-    <table>
-        <thead>
-            <tr>
-                <th>Type</th>
-                <th>Value</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="claim in claims" :key="claim.type">
-                <td class="claim-type">{{ claim.type }}</td>
-                <td class="claim-value">{{ claim.value }}</td>
-            </tr>
-        </tbody>
-    </table>
+  <div>
+    <dl>
+      <dt>Type</dt>
+      <dd>Value</dd>
+      <template v-for="(claim, index) in claims">
+      <dt :key="claim.type">{{ claim.type }}</dt>
+      <dd :key="index">{{ claim.value }}</dd>
+      </template>
+    </dl>
+  </div>
 </template>
 
 <script>
@@ -28,20 +24,23 @@ export default {
   },
   methods: {
     getClaims () {
-      this.$http.get('/api/account/claims').then(res => {
-        this.claims = res.data
+      let claims = this.claims
+      this.$root.$userManager.getUser().then((user) => {
+        if (user) {
+          claims.splice(0, claims.length)
+
+          for (let key in user.profile) {
+            claims.push({
+              type: key,
+              value: user.profile[key]
+            })
+          }
+        }
       })
     }
   }
 }
 </script>
 
-<style scoped>
-.claim-type {
-  text-align: right;
-  padding-right: 20px;
-}
-.claim-value {
-  text-align: left;
-}
+<style>
 </style>
