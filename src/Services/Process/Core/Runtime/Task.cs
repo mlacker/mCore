@@ -13,14 +13,25 @@ namespace mCore.Services.Process.Core.Runtime
 
         public UserTask TaskDefinition { get; private set; }
 
-        public User Assignee { get; private set; }
-
-        public User Delegation { get; private set; }
+        public Guid AssigneeId { get; private set; }
 
         public DateTime ClaimTime { get; private set; }
 
         public int Priority { get; private set; }
 
         public Comment Comment { get; private set; }
+
+        public void Complete(Guid currentUserId)
+        {
+            // fireEvent("complete");
+
+            AssigneeId = currentUserId;
+
+            // delete task
+
+            // execution remove task
+
+            throw new NotImplementedException();
+        }
     }
 }

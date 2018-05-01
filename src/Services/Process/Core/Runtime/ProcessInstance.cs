@@ -7,15 +7,20 @@ namespace mCore.Services.Process.Core.Runtime
 {
     public class ProcessInstance : Entity, IAggregateRoot
     {
+        public ProcessInstance(Activity initial)
+        {
+            StartActivity = initial;
+        }
+
         public string Name { get; private set; }
 
-        public string BusinessKey { get; private set; }
+        public string BusinessKey { get; set; }
 
-        public Definition.Process Process { get; private set; }
+        public Guid ProcessDefinitionId { get; set; }
 
         public int ProcessDefinitionVersion { get; private set; }
 
-        public User StartUser { get; private set; }
+        public Guid StartUserId { get;  set; }
 
         public DateTime StartTime { get; private set; }
 
@@ -23,11 +28,18 @@ namespace mCore.Services.Process.Core.Runtime
 
         public TimeSpan Duration { get; private set; }
 
+        public Activity Activity { get; set; }
+
         public Activity StartActivity { get; private set; }
 
         public Activity EndActivity { get; private set; }
 
         public InstanceStatusEnum Status { get; private set; }
+
+        public void Start()
+        {
+            // Event notify.
+        }
     }
 
     public enum InstanceStatusEnum
