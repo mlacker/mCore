@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using mCore.Exceptions;
 using mCore.Services.Process.Core.Runtime;
 
 namespace mCore.Services.Process.Core.Engine
@@ -9,7 +10,34 @@ namespace mCore.Services.Process.Core.Engine
     {
         public void Complete(Task task, Guid currentUserId)
         {
+            if (task.Status != ActivityStatusEnum.Running)
+            {
+                throw new InvalidOperationAppException($"当前任务已被处理.");
+            }
+
+            if (task.AssigneeId != currentUserId && task.AssigneeId != null)
+            {
+                throw new InvalidOperationAppException($"您不是当前任务的处理人.");
+            }
+
             task.Complete(currentUserId);
+
+            // fire event task complete
+            
+            // delete task
+
+            // Get all out transitions;
+            // Check transition, push to transitionsToTake if condition evaluate true.
+            // Handle default transition logic (no condition).
+
+            // take(transition)
+            // Set activity to current execution.
+
+            // create next task
+            // handle some like name expression.
+            // handle assigments.
+
+            // fire event task create
         }
 
         public abstract void Claim(string taskId, string userId);

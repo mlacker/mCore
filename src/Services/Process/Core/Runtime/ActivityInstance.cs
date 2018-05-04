@@ -4,8 +4,13 @@ using mCore.Services.Process.Core.Definition;
 
 namespace mCore.Services.Process.Core.Runtime
 {
-    public class ActivityInstance : Entity, IAggregateRoot
+    public abstract class ActivityInstance : Entity, IAggregateRoot
     {
+        protected ActivityInstance()
+        {
+            StartTime = DateTime.Now;
+        }
+
         public Activity Activity { get; private set; }
 
         public ProcessInstance ProcessInstance { get; private set; }

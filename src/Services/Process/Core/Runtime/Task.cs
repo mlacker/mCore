@@ -1,13 +1,16 @@
 ﻿using System;
 using mCore.Domain.Entities;
 using mCore.Services.Process.Core.Definition;
-using mCore.Services.Process.Core.Identity;
 
 namespace mCore.Services.Process.Core.Runtime
 {
     public class Task : ActivityInstance, IAggregateRoot
     {
         public const int DEFAULT_PRIORITY = 50;
+
+        public Task()
+        {
+        }
 
         public string Name { get; private set; }
 
@@ -32,6 +35,15 @@ namespace mCore.Services.Process.Core.Runtime
             // execution remove task
 
             throw new NotImplementedException();
+        }
+
+        public void SetAssignee(Guid userId)
+        {
+            AssigneeId = userId;
+
+            // fire event assignment
+
+            // record task assignee change
         }
     }
 }

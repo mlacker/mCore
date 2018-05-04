@@ -3,20 +3,20 @@ using mCore.Services.Process.Core.Expressions;
 
 namespace mCore.Services.Process.Core.Definition
 {
-    public enum TransferEnum
+    public enum TransitionTypeEnum
     {
         Pass,
         Back,
         Terminate
     }
 
-    public class Connection : Entity
+    public class Transition : Entity
     {
-        public Activity SourceActivity { get; private set; }
+        public Activity Source { get; private set; }
 
-        public Activity TargetActivity { get; private set; }
+        public Activity Destination { get; private set; }
 
-        public TransferEnum TransferType { get; private set; }
+        public TransitionTypeEnum TransitionType { get; private set; }
 
         public Expression<bool> Condition { get; private set; }
     }

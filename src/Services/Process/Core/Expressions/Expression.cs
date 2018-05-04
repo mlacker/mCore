@@ -2,7 +2,10 @@
 
 namespace mCore.Services.Process.Core.Expressions
 {
-    public class Expression<TResult> : Entity 
+    public interface Expression<TResult>
     {
+        string ExpressionText { get; }
+
+        TResult GetValue();
     }
 }
