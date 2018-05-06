@@ -6,19 +6,27 @@ using mCore.Services.Process.Core.Runtime;
 
 namespace mCore.Services.Process.Core.Definition
 {
-    public class Process : Entity, IAggregateRoot
+    public class ProcessDefinition : Entity, IAggregateRoot
     {
+        protected ProcessDefinition()
+        {
+            Version = 1;
+
+            Activities = new List<ActivityDefinition>();
+            Transitions = new List<Transition>();
+        }
+
         public string Name { get; private set; }
 
         public string Category { get; private set; }
 
-        public byte Version { get; private set; }
+        public int Version { get; private set; }
 
         public Expression<string> InstanceNameExpression { get; private set; }
 
-        public ICollection<Activity> Activities { get; private set; }
+        public ActivityDefinition InitialActivity { get; private set; }
 
-        public Activity Initial { get; private set; }
+        public ICollection<ActivityDefinition> Activities { get; private set; }
 
         public ICollection<Transition> Transitions { get; private set; }
 
@@ -26,14 +34,14 @@ namespace mCore.Services.Process.Core.Definition
 
         public ProcessInstance CreateProcessInstance(Guid currentUserId, string businessKey = null)
         {
-            if (Initial == null)
+            if (InitialActivity == null)
             {
                 throw new InvalidOperationException("Cannot start process instance, initial activity where the process instance should start is null.");
             }
 
-            var processInstance = new ProcessInstance(Id, currentUserId, Initial, businessKey);
+            var processInstance = new ProcessInstance(Id, currentUserId, InitialActivity, businessKey);
 
-            // TODO: Event dispatch
+            // Event process create
 
             return processInstance;
         }

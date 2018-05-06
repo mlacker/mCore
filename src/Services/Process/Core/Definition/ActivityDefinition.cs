@@ -2,7 +2,7 @@
 
 namespace mCore.Services.Process.Core.Definition
 {
-    public class Button : Entity
+    public abstract class ActivityDefinition : Entity
     {
         public string Name { get; private set; }
     }

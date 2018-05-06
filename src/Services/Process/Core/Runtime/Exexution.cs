@@ -21,7 +21,7 @@ namespace mCore.Services.Process.Core.Runtime
 
         public ICollection<Exexution> Executions { get; private set; }
 
-        public Activity Activity { get; private set; }
+        public ActivityDefinition ActivityDefinition { get; private set; }
 
         public bool IsActive { get; private set; }
 
@@ -35,7 +35,7 @@ namespace mCore.Services.Process.Core.Runtime
             {
                 Parent = this,
                 ProcessInstance = ProcessInstance,
-                Activity = Activity,
+                ActivityDefinition = ActivityDefinition,
             };
 
             Executions.Add(createdExecution);
@@ -43,15 +43,6 @@ namespace mCore.Services.Process.Core.Runtime
             // Event: entity created
 
             return createdExecution;
-        }
-
-        public void Start()
-        {
-            // set starting execution
-
-            // perform process_start
-
-            throw new NotImplementedException();
         }
 
         public void End()
@@ -64,14 +55,14 @@ namespace mCore.Services.Process.Core.Runtime
             throw new NotImplementedException();
         }
 
-        public void Task(Transition transition, bool fireActivityCompletionEvent = true)
+        public void Take(Transition transition, bool fireActivityCompletionEvent = true)
         {
             if (fireActivityCompletionEvent)
             {
                 // FireActivityCompletionEvent
             }
 
-            Activity = transition.Source;
+            ActivityDefinition = transition.Source;
 
             // perform transition_notify_listener_end
         }

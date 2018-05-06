@@ -9,25 +9,25 @@ namespace mCore.Services.Process.Core.Runtime
         protected ActivityInstance()
         {
             StartTime = DateTime.Now;
+            Status = ActivityStatusEnum.Created;
         }
-
-        public Activity Activity { get; private set; }
 
         public ProcessInstance ProcessInstance { get; private set; }
 
-        public Exexution Exexution { get; private set; }
+        public ActivityDefinition ActivityDefinition { get; private set; }
 
         public DateTime StartTime { get; private set; }
 
-        public DateTime EndTime { get; private set; }
+        public DateTime? EndTime { get; private set; }
 
-        public TimeSpan Duration { get; private set; }
+        public TimeSpan? Duration { get; private set; }
 
-        public ActivityStatusEnum Status { get; private set; }
+        public ActivityStatusEnum Status { get; protected set; }
     }
 
     public enum ActivityStatusEnum
     {
+        Created,
         Running,
         Completed,
         Deleted
