@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using mCore.Services.Process.Core.Definition;
 using mCore.Services.Process.Core.Validation;
 
 namespace mCore.Services.Process.Core.Engine
@@ -20,7 +21,7 @@ namespace mCore.Services.Process.Core.Engine
 
         public abstract void DeleteDeployment(string deploymentId, bool cascade = false);
 
-        public abstract IEnumerable<ValidationError> ValidateProcess(Definition.Process process);
+        public abstract IEnumerable<ValidationError> ValidateProcess(ProcessDefinition process);
     }
 
     public class DeploymentBuilder

@@ -111,6 +111,22 @@ namespace mCore.Services.Process.Application.Runtime
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// 终止流程实例
+        /// </summary>
+        /// <param name="instanceId">流程实例标识</param>
+        public void TerminateProcessInstance(Guid instanceId)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 完成任务
+        /// </summary>
+        /// <param name="taskId">任务标识</param>
+        /// <param name="actionId">执行标识</param>
+        /// <param name="currentUserId">当前用户</param>
+        /// <param name="data">业务数据</param>
         public void CompleteTask(Guid taskId, Guid actionId, Guid currentUserId, dynamic data)
         {
             var currentTask = taskRepository.Get(taskId)
@@ -136,7 +152,12 @@ namespace mCore.Services.Process.Application.Runtime
             UnitOfWork.Commit();
         }
 
-        public void Revoke(Guid taskId, Guid currentUserId)
+        /// <summary>
+        /// 撤回任务
+        /// </summary>
+        /// <param name="taskId">任务标识</param>
+        /// <param name="currentUserId">当前用户</param>
+        public void RevokeTask(Guid taskId, Guid currentUserId)
         {
             var currentTask = taskRepository.Get(taskId);
 
@@ -145,7 +166,12 @@ namespace mCore.Services.Process.Application.Runtime
             throw new NotImplementedException();
         }
 
-        public void Terminate(Guid instanceId)
+        public void SaveData(Guid processInstanceId, dynamic data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void GetProcessInstanceHistory(Guid processInstanceId)
         {
             throw new NotImplementedException();
         }

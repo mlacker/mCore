@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using mCore.Exceptions;
+using mCore.Services.Process.Core.Definition;
 using mCore.Services.Process.Core.Event;
 using mCore.Services.Process.Core.Identity;
 using mCore.Services.Process.Core.Runtime;
@@ -22,7 +21,7 @@ namespace mCore.Services.Process.Core.Engine
 
         public abstract void DispatchEvent(ActivitiEventHandler @event);
 
-        public ProcessInstance StartProcessInstance(Definition.Process processDefinition, Guid currentUserId, string businessKey = null)
+        public ProcessInstance StartProcessInstance(ProcessDefinition processDefinition, Guid currentUserId, string businessKey = null)
         {
             if (processDefinition.IsSuspended)
             {

@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using mCore.Services.Process.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
-namespace Application
+namespace mCore.Services.Process.Application
 {
     public class Startup
     {
@@ -27,6 +22,9 @@ namespace Application
             services.AddMvcCore()
                 .AddAuthorization()
                 .AddJsonFormatters();
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddAuthentication("Bearer")
                 .AddIdentityServerAuthentication(options =>
