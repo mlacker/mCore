@@ -9,7 +9,13 @@ namespace mCore.Services.Process.Core.Runtime
         protected ActivityInstance()
         {
             StartTime = DateTime.Now;
-            Status = ActivityStatusEnum.Created;
+            Status = ActivityStatusEnum.Running;
+        }
+
+        protected ActivityInstance(ProcessInstance processInstance, ActivityDefinition activityDefinition) : this()
+        {
+            ProcessInstance = processInstance;
+            ActivityDefinition = activityDefinition;
         }
 
         public ProcessInstance ProcessInstance { get; private set; }
@@ -22,7 +28,7 @@ namespace mCore.Services.Process.Core.Runtime
 
         public TimeSpan? Duration { get; private set; }
 
-        public ActivityStatusEnum Status { get; protected set; }
+        public ActivityStatusEnum Status { get; set; }
     }
 
     public enum ActivityStatusEnum

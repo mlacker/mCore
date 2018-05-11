@@ -8,10 +8,16 @@ namespace mCore.Services.Process.Core.Definition
 {
     public class ProcessDefinition : Entity, IAggregateRoot
     {
+        public ProcessDefinition(string name, string category, ActivityDefinition initialActivity, int version = 1) : this()
+        {
+            Name = name;
+            Category = category;
+            Version = version;
+            InitialActivity = initialActivity;
+        }
+
         protected ProcessDefinition()
         {
-            Version = 1;
-
             Activities = new List<ActivityDefinition>();
             Transitions = new List<Transition>();
         }

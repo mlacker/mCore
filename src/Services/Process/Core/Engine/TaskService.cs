@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using mCore.Exceptions;
+using mCore.Services.Process.Core.Definition;
 using mCore.Services.Process.Core.Runtime;
 
 namespace mCore.Services.Process.Core.Engine
 {
-    public abstract class TaskService
+    public class TaskService
     {
-        public void Complete(Task task, Guid currentUserId)
+        public Task Complete(Task task, ProcessDefinition processDefinition, Guid currentUserId)
         {
             if (task.Status != ActivityStatusEnum.Running)
             {
@@ -20,40 +21,78 @@ namespace mCore.Services.Process.Core.Engine
                 throw new InvalidOperationAppException($"您不是当前任务的处理人.");
             }
 
+            var processInstance = task.ProcessInstance;
+
             task.Complete(currentUserId);
 
             // fire event task complete
-            
+
             // delete task
+            task.Status = ActivityStatusEnum.Deleted;
 
             // Get all out transitions;
             // Check transition, push to transitionsToTake if condition evaluate true.
             // Handle default transition logic (no condition).
+            var outTransitions = GetOutTransitions(processDefinition, task.ActivityDefinition);
+            var outTransition = outTransitions.First(m => m.Condition.GetValue());
 
             // take(transition)
             // Set activity to current execution.
+            processInstance.Take(outTransition);
 
             // create next task
             // handle some like name expression.
             // handle assigments.
+            var nextTask = (Task)processInstance.CreateCurrentActivityInstance();
 
             // fire event task create
+
+            return nextTask;
         }
 
-        public abstract void Claim(string taskId, string userId);
+        public IEnumerable<Transition> GetOutTransitions(ProcessDefinition processDefinition, ActivityDefinition activityDefinition)
+        {
+            return processDefinition.Transitions.Where(m => m.Source == activityDefinition);
+        }
 
-        public abstract void Unclaim(string taskId);
+        public void Claim(string taskId, string userId)
+        {
+            throw new NotImplementedException();
+        }
 
-        public abstract void SetAssignee(string taskId, string userId);
+        public void Unclaim(string taskId)
+        {
+            throw new NotImplementedException();
+        }
 
-        public abstract void DelegateTask(string taskId, string userId);
+        public void SetAssignee(string taskId, string userId)
+        {
+            throw new NotImplementedException();
+        }
 
-        public abstract Comment CreateComment(string taskId, string processInstanceId, string message);
+        public void DelegateTask(string taskId, string userId)
+        {
+            throw new NotImplementedException();
+        }
 
-        public abstract void DeleteComment(string commentId);
+        public Comment CreateComment(string taskId, string processInstanceId, string message)
+        {
+            throw new NotImplementedException();
+        }
 
-        public abstract void DeleteTask(string taskId, string deleteReason);
+        public void DeleteComment(string commentId)
+        {
+            throw new NotImplementedException();
+        }
 
-        public abstract void DeleteTasks(IEnumerable<string> taskIds, string deleteReason = null, bool cascade = false);
+        public void DeleteTask(string taskId, string deleteReason)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteTasks(IEnumerable<string> taskIds, string deleteReason = null, bool cascade = false)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

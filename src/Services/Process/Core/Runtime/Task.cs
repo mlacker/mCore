@@ -9,6 +9,15 @@ namespace mCore.Services.Process.Core.Runtime
     {
         public const int DEFAULT_PRIORITY = 50;
 
+        public Task(ProcessInstance processInstance, UserTask task) : base(processInstance, task)
+        {
+            Priority = DEFAULT_PRIORITY;
+
+            Comments = new List<Comment>();
+
+            TaskDefinition = task;
+        }
+
         protected Task() : base()
         {
             Priority = DEFAULT_PRIORITY;
@@ -38,8 +47,6 @@ namespace mCore.Services.Process.Core.Runtime
             Status = ActivityStatusEnum.Deleted;
 
             // execution remove task
-
-            throw new NotImplementedException();
         }
 
         public void SetAssignee(Guid userId)

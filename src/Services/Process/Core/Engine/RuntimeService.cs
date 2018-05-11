@@ -7,19 +7,37 @@ using mCore.Services.Process.Core.Runtime;
 
 namespace mCore.Services.Process.Core.Engine
 {
-    public abstract class RuntimeService
+    public class RuntimeService
     {
-        public abstract void ActivateProcessInstance(string processInstanceId);
+        public void ActivateProcessInstance(string processInstanceId)
+        {
+            throw new NotImplementedException();
+        }
 
-        public abstract void AddEventListener(ActivitiEventHandler @event);
+        public void AddEventListener(ActivitiEventHandler @event)
+        {
+            throw new NotImplementedException();
+        }
 
-        public abstract void AddGroupIdentityLink(string processInstanceId, string groupId, IdentityLinkType identityLinkType = IdentityLinkType.Candidate);
+        public void AddGroupIdentityLink(string processInstanceId, string groupId, IdentityLinkType identityLinkType = IdentityLinkType.Candidate)
+        {
+            throw new NotImplementedException();
+        }
 
-        public abstract void AddUserIdentityLink(string processInstanceId, string userId, IdentityLinkType identityLinkType = IdentityLinkType.Candidate);
+        public void AddUserIdentityLink(string processInstanceId, string userId, IdentityLinkType identityLinkType = IdentityLinkType.Candidate)
+        {
+            throw new NotImplementedException();
+        }
 
-        public abstract void DeleteProcessInstance(string processInstanceId, string deleteReason);
+        public void DeleteProcessInstance(string processInstanceId, string deleteReason)
+        {
+            throw new NotImplementedException();
+        }
 
-        public abstract void DispatchEvent(ActivitiEventHandler @event);
+        public void DispatchEvent(ActivitiEventHandler @event)
+        {
+            throw new NotImplementedException();
+        }
 
         public ProcessInstance StartProcessInstance(ProcessDefinition processDefinition, Guid currentUserId, string businessKey = null)
         {
@@ -30,6 +48,8 @@ namespace mCore.Services.Process.Core.Engine
             }
 
             var processInstance = processDefinition.CreateProcessInstance(currentUserId, businessKey);
+
+            var activityInstance = processInstance.CreateStartedActivityInstance();
 
             processInstance.Start();
 

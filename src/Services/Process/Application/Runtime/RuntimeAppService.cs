@@ -132,9 +132,11 @@ namespace mCore.Services.Process.Application.Runtime
             var currentTask = taskRepository.Get(taskId)
                 ?? throw new ArgumentAppException($"No task instance found for id = '{taskId}'", nameof(taskId));
 
+            var processDefinition = processRepository.Get(currentTask.ProcessInstance.ProcessDefinitionId);
+
             // Save data
 
-            taskService.Complete(currentTask, currentUserId);
+            taskService.Complete(currentTask, processDefinition, currentUserId);
 
             var nextTasks = taskRepository.GetAll(m => m.ProcessInstance.Id == currentTask.ProcessInstance.Id
                 && m.Status == ActivityStatusEnum.Running);

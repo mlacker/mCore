@@ -53,11 +53,9 @@ namespace mCore.Services.Process.Core.Runtime
         {
             // set starting execution
 
-            // perform process_start
-
             Status = InstanceStatusEnum.Running;
 
-            throw new NotImplementedException();
+            // ProcessStartedEvent
         }
 
         public void Take(Transition transition, bool fireActivityCompletionEvent = true)
@@ -67,9 +65,32 @@ namespace mCore.Services.Process.Core.Runtime
                 // FireActivityCompletionEvent
             }
 
-            Activity = transition.Source;
+            Activity = transition.Destination;
 
             // perform transition_notify_listener_end
+        }
+
+        public ActivityInstance CreateStartedActivityInstance()
+        {
+            var activityInstance = CreateActivityInstance(StartActivity);
+
+            Activities.Add(activityInstance);
+
+            return activityInstance;
+        }
+
+        public ActivityInstance CreateCurrentActivityInstance()
+        {
+            var activityInstance = CreateActivityInstance(Activity);
+
+            Activities.Add(activityInstance);
+
+            return activityInstance;
+        }
+
+        private ActivityInstance CreateActivityInstance(ActivityDefinition activityDefinition)
+        {
+            return activityDefinition.CreateActivityInstance(this);
         }
     }
 
