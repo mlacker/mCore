@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using mCore.Application.ViewModels;
 using mCore.Domain.Entities;
 using mCore.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -33,12 +34,24 @@ namespace mCore.Data.Repositories
 
         public IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null)
         {
-            throw new NotImplementedException();
+            var query = Entities.AsQueryable();
+
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+
+            if (orderBy != null)
+            {
+                query = orderBy(query);
+            }
+
+            return query;
         }
 
         public Task<IQueryable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(GetAll());
         }
 
         public Guid Insert(TEntity entity)
@@ -94,6 +107,13 @@ namespace mCore.Data.Repositories
             }
 
             Entities.Remove(entity);
+        }
+
+        protected async Task<PagedListViewModel<TEntity>> ToPagedListAsync(IOrderedQueryable<TEntity> query, PagedFilterViewModel filter)
+        {
+            return new PagedListViewModel<TEntity>(
+                await query.Skip(filter.Start).Take(filter.Size).ToListAsync(),
+                await query.CountAsync());
         }
     }
 }

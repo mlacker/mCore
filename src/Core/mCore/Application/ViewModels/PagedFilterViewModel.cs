@@ -4,15 +4,17 @@ namespace mCore.Application.ViewModels
 {
     public class PagedFilterViewModel
     {
-        public int Start { get; private set; } = 0;
+        public int Index { get; set; } = 1;
 
-        public int Size { get; private set; } = 10;
+        public int Start { get => Index > 0 ? (Index - 1) * Size : 0; }
 
-        public string Sort { get; private set; }
+        public int Size { get; set; } = 10;
 
-        public string Order { get; private set; }
+        public string Sort { get; set; }
 
-        public IDictionary<string, string> Filters { get; private set; }
+        public string Order { get; set; }
+
+        public IDictionary<string, string> Filters { get; set; } = new Dictionary<string, string>();
 
         public string this[string key]
         {
@@ -28,7 +30,7 @@ namespace mCore.Application.ViewModels
 
         public bool ContainsKey(string key)
         {
-            return Filters.ContainsKey(key);
+            return Filters.ContainsKey(key) && !string.IsNullOrEmpty(this[key]);
         }
     }
 }
