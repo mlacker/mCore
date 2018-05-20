@@ -3,15 +3,25 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <RootNamespace>mCore.Services.IdentityServer</RootNamespace>
+    <UserSecretsId>aspnet-AspNetIdentity-3FF2CE88-683C-401B-BC43-7D6A08DBDECD</UserSecretsId>
   </PropertyGroup>
-
+  
   <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <None Update="app.db" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="IdentityServer4" Version="2.2.0" />
+    <PackageReference Include="IdentityServer4.AspNetIdentity" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Core\mCore\mCore.csproj" />
   </ItemGroup>
 
 </Project>

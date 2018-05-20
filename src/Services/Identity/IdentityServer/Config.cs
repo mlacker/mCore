@@ -40,6 +40,8 @@ namespace mCore.Services.IdentityServer
                     ClientId = "mvc",
                     ClientName = "MVC Client",
                     AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
+                    
+                    RequireConsent = false,
 
                     ClientSecrets =
                     {
