@@ -30,9 +30,13 @@ new Vue({
           switch (response.status) {
             case 400:
               console.error(response.body)
+              this.$message({ message: response.body, type: 'error', duration: 5000 })
               break
             case 401:
               this.$root.$userManager.signinRedirect()
+              break
+            case 500:
+              this.$message({ message: '系统错误, 我也很无奈啊！', type: 'error' })
               break
           }
         }

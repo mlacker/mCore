@@ -8,6 +8,8 @@ namespace mCore.Services.Process.Application.Definition.ViewModels
         public DefinitionProfile()
         {
             CreateMap<ProcessDefinition, ProcessDefinitionViewModel>();
+
+            CreateMap<ProcessDefinitionViewModel, ProcessDefinition>();
         }
     }
 }

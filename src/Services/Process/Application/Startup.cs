@@ -3,7 +3,6 @@ using System.Reflection;
 using Autofac;
 using AutoMapper;
 using AutoMapper.EquivalencyExpression;
-using mCore.Services.Process.Application.Definition;
 using mCore.Services.Process.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -40,7 +39,7 @@ namespace mCore.Services.Process.Application
 
                     options.ApiName = "process";
                 });
-            
+
             services.Add(new ServiceDescriptor(typeof(IMapper), ConfigureMapper, ServiceLifetime.Singleton));
         }
 
@@ -50,7 +49,9 @@ namespace mCore.Services.Process.Application
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
                 .Where(t => t.Name.EndsWith("AppService"))
                 .AsSelf()
-                .InstancePerLifetimeScope();
+                .InstancePerLifetimeScope()
+                .PropertiesAutowired((p, i) =>
+                    p.Name == "Mapper" || p.Name == "Logger" || p.Name == "UnitOfWork");
 
             // Core Service
             builder.RegisterAssemblyTypes(typeof(Core.Engine.RuntimeService).Assembly)
@@ -64,8 +65,14 @@ namespace mCore.Services.Process.Application
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
 
+            // UnitOfWork
+            builder.RegisterType<mCore.Data.Uow.UnitOfWork>()
+                .As<Domain.Uow.IUnitOfWork>()
+                .InstancePerLifetimeScope();
+
             // Entity Framework
             builder.RegisterType<ApplicationDbContext>()
+                .As<DbContext>()
                 .AsSelf()
                 .InstancePerLifetimeScope();
 
@@ -79,12 +86,20 @@ namespace mCore.Services.Process.Application
                 cfg.AddProfiles(Assembly.GetExecutingAssembly());
             });
 
+            // Disabled vaildate for quick impletement.
+            // config.AssertConfigurationIsValid();
+
             return config.CreateMapper();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
             app.UseAuthentication();
 
             app.UseMvc();

@@ -2,7 +2,7 @@
 using System.Linq;
 using AutoMapper;
 using mCore.Application;
-using mCore.Application.ViewModels;
+using mCore.Domain.Entities;
 using mCore.Exceptions;
 using mCore.Services.Process.Application.Runtime.ViewModels;
 using mCore.Services.Process.Core.Definition;
@@ -39,12 +39,12 @@ namespace mCore.Services.Process.Application.Runtime
         /// <param name="filter">筛选</param>
         /// <param name="currentUserId">当前用户</param>
         /// <returns></returns>
-        public PagedListViewModel<DoingTaskViewModel> GetDoingTasks(PagedFilterViewModel filter, Guid currentUserId)
+        public PaginatedItems<DoingTaskViewModel> GetDoingTasks(PaginatedFilter filter, Guid currentUserId)
         {
             var tasks = taskRepository.GetAll(m => m.Status == ActivityStatusEnum.Running
                     && m.AssigneeId == currentUserId);
 
-            var models = Mapper.Map<PagedListViewModel<DoingTaskViewModel>>(tasks);
+            var models = Mapper.Map<PaginatedItems<DoingTaskViewModel>>(tasks);
 
             return models;
         }
@@ -55,12 +55,12 @@ namespace mCore.Services.Process.Application.Runtime
         /// <param name="filter">筛选</param>
         /// <param name="currentUserId">当前用户</param>
         /// <returns></returns>
-        public PagedListViewModel<DoingTaskViewModel> GetDoneTasks(PagedFilterViewModel filter, Guid currentUserId)
+        public PaginatedItems<DoingTaskViewModel> GetDoneTasks(PaginatedFilter filter, Guid currentUserId)
         {
             var tasks = taskRepository.GetAll(m => m.Status == ActivityStatusEnum.Completed
                     && m.AssigneeId == currentUserId);
 
-            var models = Mapper.Map<PagedListViewModel<DoingTaskViewModel>>(tasks);
+            var models = Mapper.Map<PaginatedItems<DoingTaskViewModel>>(tasks);
 
             return models;
         }
@@ -71,7 +71,7 @@ namespace mCore.Services.Process.Application.Runtime
         /// <param name="filter"></param>
         /// <param name="currentUserId"></param>
         /// <returns></returns>
-        public PagedListViewModel<ProcessInstanceViewModel> GetStartedInstances(PagedFilterViewModel filter, Guid currentUserId)
+        public PaginatedItems<ProcessInstanceViewModel> GetStartedInstances(PaginatedFilter filter, Guid currentUserId)
         {
             filter["currentUserId"] = currentUserId.ToString();
 
@@ -83,12 +83,12 @@ namespace mCore.Services.Process.Application.Runtime
         /// </summary>
         /// <param name="filter">筛选</param>
         /// <returns></returns>
-        public PagedListViewModel<ProcessInstanceViewModel> GetInstances(PagedFilterViewModel filter)
+        public PaginatedItems<ProcessInstanceViewModel> GetInstances(PaginatedFilter filter)
         {
             var instances = processInstanceRepository.GetAll()
                 .Skip(filter.Start).Take(filter.Size);
 
-            return Mapper.Map<PagedListViewModel<ProcessInstanceViewModel>>(instances);
+            return Mapper.Map<PaginatedItems<ProcessInstanceViewModel>>(instances);
         }
 
         /// <summary>
