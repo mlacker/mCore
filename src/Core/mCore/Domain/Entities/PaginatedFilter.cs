@@ -1,53 +1,37 @@
 namespace mCore.Domain.Entities
 {
+    using System;
     using System.Collections.Generic;
-
-    public enum PaginatedFilterOrder
-    {
-        ASC,
-        DESC
-    }
 
     public class PaginatedFilter
     {
-        public PaginatedFilter(int? page, int start = 0, int size = 10)
+        public int Index { get; set; } = 1;
+
+        public int Start { get => Index > 0 ? (Index - 1) * Size : 0; }
+
+        public int Size { get; set; } = 10;
+
+        public string Sort { get; set; }
+
+        public string Order { get; set; }
+
+        public IDictionary<string, string> Filters { get; set; } = new Dictionary<string, string>();
+
+        public string this[string key]
         {
-            if (page.HasValue && page.Value > 0)
+            get
             {
-                start = page.Value * size;
+                return Filters[key];
             }
-
-            Start = start;
-            End = start + size;
-            Size = size;
-            Filters = new Dictionary<string, string>();
+            set
+            {
+                Filters[key] = value;
+            }
         }
-
-        public int Start { get; private set; }
-
-        public int End { get; private set; }
-
-        public int Size { get; private set; }
-
-        public string Sort { get; private set; }
-
-        public PaginatedFilterOrder Order { get; private set; }
-
-        public IDictionary<string, string> Filters { get; private set; }
 
         public bool ContainsKey(string key)
         {
-            return Filters.ContainsKey(key) && !string.IsNullOrEmpty(Filters[key]);
-        }
-
-        public string Get(string key)
-        {
-            return Filters[key];
-        }
-
-        public void Add(string key, string value)
-        {
-            Filters.Add(key, value);
+            return Filters.ContainsKey(key) && !string.IsNullOrEmpty(this[key]);
         }
     }
 }
