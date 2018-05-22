@@ -11,18 +11,10 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/api/values': {
+      '/api': {
         target: 'http://localhost:5001',
         changeOrigin: true,
         onProxyReq (proxyReq, req, res) {
-          debugger
-        }
-      },
-      '/api/account': {
-        target: 'http://localhost:5000',
-        changeOrigin: true,
-        onProxyReq (proxyReq, req, res) {
-          debugger
         }
       }
     },

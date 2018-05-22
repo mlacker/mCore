@@ -6,9 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Engine\" />
-    <Folder Include="Runtime\" />
-    <Folder Include="Event\" />
+    <ProjectReference Include="..\..\..\Core\mCore\mCore.csproj" />
   </ItemGroup>
 
 </Project>
