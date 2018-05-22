@@ -29,8 +29,10 @@ namespace mCore.Services.Process.Application
                 .AddAuthorization()
                 .AddJsonFormatters();
 
+            // services.AddDbContext<ApplicationDbContext>(options =>
+            //     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlite(Configuration.GetConnectionString("SqliteConnection")));
 
             services.AddAuthentication("Bearer")
                 .AddIdentityServerAuthentication(options =>
