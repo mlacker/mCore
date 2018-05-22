@@ -4,6 +4,8 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import Resource from 'vue-resource'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 import Oidc from 'oidc-client'
 
 /* eslint-disable no-new */
@@ -18,6 +20,7 @@ new Vue({
   methods: {
     config () {
       Vue.use(Resource)
+      Vue.use(ElementUI)
 
       Vue.config.productionTip = false
 
@@ -27,9 +30,13 @@ new Vue({
           switch (response.status) {
             case 400:
               console.error(response.body)
+              this.$message({ message: response.body, type: 'error', duration: 5000 })
               break
             case 401:
               this.$root.$userManager.signinRedirect()
+              break
+            case 500:
+              this.$message({ message: '系统错误, 我也很无奈啊！', type: 'error' })
               break
           }
         }
