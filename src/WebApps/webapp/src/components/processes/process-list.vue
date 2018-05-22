@@ -1,21 +1,28 @@
 <template>
-  <el-container>
+  <el-container id="process-list">
     <el-header>
-      <el-form :inline="true">
-        <el-form-item>
-          <el-input v-model="page.filters.searchString" placeholder="流程名称、创建用户" clearable></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-select v-model="page.filters.category" placeholder="所属分类" clearable>
-            <el-option v-for="item in options.categories"
-              :key="item.value" :label="item.text" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item>
-          <el-button @click="onSearch">查询</el-button>
-        </el-form-item>
-      </el-form>
+      <el-row>
+        <el-col :span="8">
+          <el-button @click="add" icon="el-icon-plus">新建</el-button>
+        </el-col>
+        <el-col :span="16">
+          <el-form :inline="true">
+            <el-form-item>
+              <el-input v-model="page.filters.searchString" placeholder="流程名称、创建用户" clearable></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-select v-model="page.filters.category" placeholder="所属分类" clearable>
+                <el-option v-for="item in options.categories"
+                  :key="item.key" :label="item.text" :value="item.key">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item>
+              <el-button @click="onSearch" icon="el-icon-search">搜索</el-button>
+            </el-form-item>
+          </el-form>
+        </el-col>
+      </el-row>
     </el-header>
 
     <el-main>
@@ -36,7 +43,7 @@
     </el-main>
 
     <el-footer>
-      <el-pagination :current-page.sync="page.index" :page-size="page.size" :total="page.total" layout="->,total,prev,pager,next"></el-pagination>
+      <el-pagination :current-page="page.index" :page-size="page.size" :total="page.total" layout="->,total,prev,pager,next"></el-pagination>
     </el-footer>
   </el-container>
 </template>
@@ -70,20 +77,40 @@ export default {
       })
     },
     getCategoryOptions () {
-      this.options.categories = [
-        { value: '1', text: '默认分类' }
-      ]
+      this.$http.get('/api/process/categories').then(res => {
+        this.options.categories = res.body
+      })
+    },
+    add () {
+      this.$router.push('process-design')
     },
     edit (row) {
+      this.$router.push({ name: 'process-design', params: { id: row.id } },
+        () => {
+          console.log('onComplete', arguments)
+        },
+        () => {
+          console.log('onAbort', arguments)
+        })
     },
     remove (row) {
+      this.$confirm('此操作将永久删除该流程, 是否继续?', '提示', { type: 'warning' }).then(() => {
+        return this.$http.delete(`/api/process/${row.id}`)
+      }).then(() => {
+        this.$message({ type: 'success', message: '删除成功!' })
+      })
     },
     onSearch () {
       this.getProcessList()
     },
     onPageChange (val) {
+      this.page.index = val
       this.getProcessList()
     }
   }
 }
 </script>
+
+<style>
+#process-list > header form.el-form--inline { text-align: right; }
+</style>

@@ -1,22 +1,32 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using mCore.Application.ViewModels;
 
 namespace mCore.Services.Process.Application.Definition.ViewModels
 {
     public class ProcessDefinitionViewModel : IEntityViewModel
     {
-        public Guid? Id { get; private set; }
+        public Guid? Id { get; set; }
 
-        public string Name { get; private set; }
+        [Required]
+        [MaxLength(20)]
+        public string Name { get; set; }
 
-        public string Category { get; private set; }
+        [Required]
+        [MaxLength(20)]
+        public string Category { get; set; }
 
-        public int CurrentVersion { get; private set; }
+        public IEnumerable<ActivityDefinitionViewModel> Activities { get; set; }
 
-        public string CreatedUser { get; private set; }
+        public IEnumerable<TransitionViewModel> Transitions { get; set; }
 
-        public string CreatedTime { get; private set; }
+        public int CurrentVersion { get; set; }
 
-        public string IsSuspended { get; private set; }
+        public string CreatedUser { get; set; }
+
+        public string CreatedTime { get; set; }
+
+        public string IsSuspended { get; set; }
     }
 }

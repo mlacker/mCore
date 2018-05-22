@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using mCore.Application.ViewModels;
 using mCore.Domain.Entities;
 using mCore.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -105,13 +104,15 @@ namespace mCore.Data.Repositories
 
                 await UpdateAsync(entity);
             }
-
-            Entities.Remove(entity);
+            else
+            {
+                Entities.Remove(entity);
+            }
         }
 
-        protected async Task<PagedListViewModel<TEntity>> ToPagedListAsync(IOrderedQueryable<TEntity> query, PagedFilterViewModel filter)
+        protected async Task<PaginatedItems<TEntity>> ToPagedListAsync(IOrderedQueryable<TEntity> query, PaginatedFilter filter)
         {
-            return new PagedListViewModel<TEntity>(
+            return new PaginatedItems<TEntity>(
                 await query.Skip(filter.Start).Take(filter.Size).ToListAsync(),
                 await query.CountAsync());
         }
