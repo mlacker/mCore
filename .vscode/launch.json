@@ -5,7 +5,21 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "IdentityServer (web)",
+            "name": "ProcessAPI",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceRoot}/src/Services/Process/Application/bin/Debug/netcoreapp2.0/Application.dll",
+            "args": [],
+            "cwd": "${workspaceRoot}/src/Services/Process/Application",
+            "stopAtEntry": false,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "http://localhost:5001"
+            }
+        },
+        {
+            "name": "IdentityServer",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
@@ -38,7 +52,7 @@
             }
         },
         {
-            "name": "IdentityClient (web)",
+            "name": "IdentityClient",
             "type": "coreclr",
             "request": "launch",
             "program": "${workspaceRoot}/src/Services/Identity/IdentityClient/bin/Debug/netcoreapp2.0/IdentityClient.dll",
@@ -61,8 +75,8 @@
         {
             "name": "Identity Server/Client",
             "configurations": [
-                "IdentityServer (web)",
-                "IdentityClient (web)"
+                "IdentityServer",
+                "IdentityClient"
             ]
         }
     ]
