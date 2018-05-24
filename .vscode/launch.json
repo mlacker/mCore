@@ -1,0 +1,83 @@
+{
+    // Use IntelliSense to find out which attributes exist for C# debugging
+    // Use hover for the description of the existing attributes
+    // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "ProcessAPI",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceRoot}/src/Services/Process/Application/bin/Debug/netcoreapp2.0/Application.dll",
+            "args": [],
+            "cwd": "${workspaceRoot}/src/Services/Process/Application",
+            "stopAtEntry": false,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "http://localhost:5001"
+            }
+        },
+        {
+            "name": "IdentityServer",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            // If you have changed target frameworks, make sure to update the program path.
+            "program": "${workspaceFolder}/src/Services/Identity/IdentityServer/bin/Debug/netcoreapp2.0/IdentityServer.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/Services/Identity/IdentityServer",
+            "stopAtEntry": false,
+            "internalConsoleOptions": "openOnSessionStart",
+            "launchBrowser": {
+                "enabled": false,
+                "args": "${auto-detect-url}",
+                "windows": {
+                    "command": "cmd.exe",
+                    "args": "/C start ${auto-detect-url}"
+                },
+                "osx": {
+                    "command": "open"
+                },
+                "linux": {
+                    "command": "xdg-open"
+                }
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "http://localhost:5000"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
+            "name": "IdentityClient",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceRoot}/src/Services/Identity/IdentityClient/bin/Debug/netcoreapp2.0/IdentityClient.dll",
+            "args": [],
+            "cwd": "${workspaceRoot}/src/Services/Identity/IdentityClient",
+            "stopAtEntry": false,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "http://localhost:5002"
+            }
+        },
+        {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach",
+            "processId": "${command:pickProcess}"
+        },
+    ],
+    "compounds": [
+        {
+            "name": "Identity Server/Client",
+            "configurations": [
+                "IdentityServer",
+                "IdentityClient"
+            ]
+        }
+    ]
+}

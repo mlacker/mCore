@@ -1,29 +1,19 @@
 namespace mCore.Domain.Entities
 {
-    using System.Collections;
+    using System;
     using System.Collections.Generic;
 
-    public class PaginatedItems<TEntity> : IEnumerable<TEntity>
-        where TEntity : class, IEntity
+    public class PaginatedItems<TEntity> 
+        where TEntity : class
     {
-        public PaginatedItems(IEnumerable<TEntity> data, long count)
+        public PaginatedItems(IEnumerable<TEntity> items, long total)
         {
-            this.Data = data;
-            this.Count = count;
+            Items = items ?? throw new ArgumentNullException(nameof(items));
+            Total = total;
         }
 
-        public IEnumerable<TEntity> Data { get; private set; }
+        public IEnumerable<TEntity> Items { get; private set; }
 
-        public long Count { get; private set; }
-
-        public IEnumerator<TEntity> GetEnumerator()
-        {
-            return Data.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return Data.GetEnumerator();
-        }
+        public long Total { get; private set; }
     }
 }

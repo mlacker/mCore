@@ -4,6 +4,6 @@ namespace mCore.Application.ViewModels
 
     public interface IEntityViewModel
     {
-        Guid Id { get; }
+        Guid? Id { get; }
     }
 }
