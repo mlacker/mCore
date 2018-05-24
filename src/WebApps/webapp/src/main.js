@@ -29,14 +29,13 @@ new Vue({
         return (response) => {
           switch (response.status) {
             case 400:
-              console.error(response.body)
               this.$message({ message: response.body, type: 'error', duration: 5000 })
               break
             case 401:
               this.$root.$userManager.signinRedirect()
               break
             case 500:
-              this.$message({ message: '系统错误, 我也很无奈啊！', type: 'error' })
+              this.$message({ message: '系统错误。', type: 'error' })
               break
           }
         }
@@ -44,19 +43,11 @@ new Vue({
 
       this.$userManager = new Oidc.UserManager({
         authority: 'http://localhost:5000',
-        client_id: 'js',
-        redirect_uri: 'http://localhost:8080/#/callback?',
+        client_id: 'spa',
+        redirect_uri: 'http://localhost:8080/account/callback',
         response_type: 'id_token token',
         scope: 'openid profile process',
-        post_logout_redirect_uri: 'http://localhost:8080/#/'
-      })
-
-      this.$userManager.getUser().then(user => {
-        if (user) {
-          console.log('User logged in', user.profile)
-        } else {
-          console.log('User not logged in')
-        }
+        post_logout_redirect_uri: 'http://localhost:8080/'
       })
     }
   }

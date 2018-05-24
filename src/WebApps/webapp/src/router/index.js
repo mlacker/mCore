@@ -1,10 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Index from '@/components/Index'
-import Claims from '@/components/account/Claims'
-import Register from '@/components/account/Register'
-import Callback from '@/components/account/Callback'
+import Index from '@/components/index'
+import Login from '@/components/account/login'
+import Callback from '@/components/account/callback'
 import ProcessList from '@/components/processes/process-list'
 import ProcessDesign from '@/components/processes/process-design'
 
@@ -19,18 +18,13 @@ export default new Router({
       component: Index
     },
     {
-      path: '/account/claims',
-      name: 'Claims',
-      component: Claims
+      path: '/account/login',
+      name: 'login',
+      component: Login
     },
     {
-      path: '/account/register',
-      name: 'Register',
-      component: Register
-    },
-    {
-      path: '/callback',
-      name: 'Callback',
+      path: '/account/callback',
+      name: 'callback',
       component: Callback
     },
     {

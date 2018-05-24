@@ -6,10 +6,9 @@
 
 <script>
 export default {
-  name: 'Index'
+  name: 'index'
 }
 </script>
 
-<style scoped>
-
+<style>
 </style>

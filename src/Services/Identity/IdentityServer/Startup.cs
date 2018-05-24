@@ -40,7 +40,6 @@ namespace mCore.Services.IdentityServer
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddTransient<ILoginService<ApplicationUser>, EFLoginService>();
-            services.AddTransient<IProfileService, ProfileService>();
 
             services.AddMvc();
 
@@ -50,7 +49,8 @@ namespace mCore.Services.IdentityServer
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryApiResources(Config.GetApiResources())
                 .AddInMemoryClients(Config.GetClients())
-                .AddAspNetIdentity<ApplicationUser>();
+                .AddAspNetIdentity<ApplicationUser>()
+                .Services.AddTransient<IProfileService, ProfileService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

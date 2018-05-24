@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using IdentityModel;
 using IdentityServer4.Events;
 using IdentityServer4.Extensions;
 using IdentityServer4.Services;
@@ -13,9 +13,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace mCore.Services.IdentityServer.Controllers
 {
@@ -25,6 +23,7 @@ namespace mCore.Services.IdentityServer.Controllers
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly IIdentityServerInteractionService interaction;
         private readonly IEventService events;
         private readonly IEmailSender emailSender;
         private readonly ILogger logger;
@@ -32,12 +31,14 @@ namespace mCore.Services.IdentityServer.Controllers
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
+            IIdentityServerInteractionService interaction,
             IEventService events,
             IEmailSender emailSender,
             ILogger<AccountController> logger)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.interaction = interaction;
             this.events = events;
             this.emailSender = emailSender;
             this.logger = logger;
@@ -226,16 +227,6 @@ namespace mCore.Services.IdentityServer.Controllers
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Logout()
-        {
-            await signInManager.SignOutAsync();
-            await events.RaiseAsync(new UserLogoutSuccessEvent(User.GetSubjectId(), User.GetDisplayName()));
-            logger.LogInformation("User logged out.");
-            return RedirectToAction(nameof(HomeController.Index), "Home");
-        }
-
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Register(string returnUrl = null)
@@ -252,7 +243,7 @@ namespace mCore.Services.IdentityServer.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { Name = model.Email, UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { Name = model.Username, UserName = model.Username, Email = model.Email };
                 var result = await userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -271,6 +262,40 @@ namespace mCore.Services.IdentityServer.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        /// <summary>
+        /// Handle logout request
+        /// </summary>
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> Logout(string logoutId)
+        {
+            // build a model so the logged out page knows what to display
+            var vm = await BuildLoggedOutViewModelAsync(logoutId);
+
+            if (User?.Identity.IsAuthenticated == true)
+            {
+                // delete local authentication cookie
+                await signInManager.SignOutAsync();
+
+                // raise the logout event
+                await events.RaiseAsync(new UserLogoutSuccessEvent(User.GetSubjectId(), User.GetDisplayName()));
+            }
+
+            // check if we need to trigger sign-out at an upstream identity provider
+            if (vm.TriggerExternalSignout)
+            {
+                // build a return URL so the upstream provider will redirect back
+                // to us after the user has logged out. this allows us to then
+                // complete our single sign-out processing.
+                string url = Url.Action("Logout", new { logoutId = vm.LogoutId });
+
+                // this triggers a redirect to the external provider for sign-out
+                return SignOut(new AuthenticationProperties { RedirectUri = url }, vm.ExternalAuthenticationScheme);
+            }
+
+            return View("LoggedOut", vm);
         }
 
         [HttpPost]
@@ -480,6 +505,44 @@ namespace mCore.Services.IdentityServer.Controllers
             {
                 return RedirectToAction(nameof(HomeController.Index), "Home");
             }
+        }
+
+        private async Task<LoggedOutViewModel> BuildLoggedOutViewModelAsync(string logoutId)
+        {
+            // get context information (client name, post logout redirect URI and iframe for federated signout)
+            var logout = await interaction.GetLogoutContextAsync(logoutId);
+
+            var vm = new LoggedOutViewModel
+            {
+                AutomaticRedirectAfterSignOut = false,
+                PostLogoutRedirectUri = logout?.PostLogoutRedirectUri,
+                ClientName = string.IsNullOrEmpty(logout?.ClientName) ? logout?.ClientId : logout?.ClientName,
+                SignOutIframeUrl = logout?.SignOutIFrameUrl,
+                LogoutId = logoutId
+            };
+
+            if (User?.Identity.IsAuthenticated == true)
+            {
+                var idp = User.FindFirst(JwtClaimTypes.IdentityProvider)?.Value;
+                if (idp != null && idp != IdentityServer4.IdentityServerConstants.LocalIdentityProvider)
+                {
+                    var providerSupportsSignout = await HttpContext.GetSchemeSupportsSignOutAsync(idp);
+                    if (providerSupportsSignout)
+                    {
+                        if (vm.LogoutId == null)
+                        {
+                            // if there's no current logout context, we need to create one
+                            // this captures necessary info from the current logged in user
+                            // before we signout and redirect away to the external IdP for signout
+                            vm.LogoutId = await interaction.CreateLogoutContextAsync();
+                        }
+
+                        vm.ExternalAuthenticationScheme = idp;
+                    }
+                }
+            }
+
+            return vm;
         }
 
         #endregion

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Claims;
+﻿using System.Collections.Generic;
 using IdentityServer4;
 using IdentityServer4.Models;
-using IdentityServer4.Test;
 
 namespace mCore.Services.IdentityServer
 {
@@ -67,13 +64,17 @@ namespace mCore.Services.IdentityServer
                 // JavaScript Client
                 new Client
                 {
-                    ClientId = "js",
+                    ClientId = "spa",
                     ClientName = "JavaScript Client",
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
 
-                    RedirectUris = { "http://localhost:8080/#/callback?" },
-                    PostLogoutRedirectUris = { "http://localhost:8080/#/" },
+                    // where to redirect to after login
+                    RedirectUris = { "http://localhost:8080/account/callback" },
+
+                    // where to redirect to after logout
+                    PostLogoutRedirectUris = { "http://localhost:8080/" },
+
                     AllowedCorsOrigins = { "http://localhost:8080" },
 
                     AllowedScopes =
@@ -82,37 +83,6 @@ namespace mCore.Services.IdentityServer
                         IdentityServerConstants.StandardScopes.Profile,
                         IdentityServerConstants.StandardScopes.Email,
                         "process"
-                    }
-                }
-            };
-        }
-
-        internal static List<TestUser> GetUsers()
-        {
-            return new List<TestUser>
-            {
-                new TestUser
-                {
-                    SubjectId = "1",
-                    Username = "alice",
-                    Password = "password",
-
-                    Claims = new []
-                    {
-                        new Claim("name", "Alice"),
-                        new Claim("website", "https://alice.com")
-                    }
-                },
-                new TestUser
-                {
-                    SubjectId = "2",
-                    Username = "bob",
-                    Password = "password",
-
-                    Claims = new []
-                    {
-                        new Claim("name", "Bob"),
-                        new Claim("website", "https://bob.com")
                     }
                 }
             };

@@ -4,16 +4,15 @@
 
 <script>
 export default {
-  name: 'Callback',
+  name: 'callback',
   data () {
     return {
 
     }
   },
   mounted () {
-    let query = this.$route.fullPath.substring(this.$route.path.length + 1)
-    this.$root.$userManager.signinRedirectCallback(query)
-      .then(() => {
+    this.$root.$userManager.signinRedirectCallback()
+      .then((user) => {
         this.$router.push('Index')
       }).catch((e) => {
         console.error(e)

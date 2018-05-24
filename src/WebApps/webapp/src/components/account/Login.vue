@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: 'Login',
+  name: 'login',
   methods: {
     login () {
       this.$root.$userManager.signinRedirect()
@@ -18,8 +18,8 @@ export default {
     },
     api () {
       this.$root.$userManager.getUser().then((user) => {
-        this.$http.get('http://localhost:5001/api/values', {
-          headers: {'Authorization': 'Bearer ' + user.access_token}
+        this.$http.get('http://localhost:5001/api/process/categories', {
+          headers: {'Authorization': `${user.token_type} ${user.access_token}`}
         }).then((res) => {
           console.log(res.body)
         })
@@ -28,6 +28,3 @@ export default {
   }
 }
 </script>
-
-<style>
-</style>

@@ -38,14 +38,12 @@ export default {
     getMenus () {
       this.page.menus = [
         { id: '1', name: 'Index', link: '/' },
-        { id: '2', name: 'Claims', link: '/account/claims' },
-        { id: '3', name: 'LogIn', link: '/account/login' },
-        { id: '4', name: 'Register', link: '/account/register' },
+        { id: '2', name: 'LogIn', link: '/account/login' },
         {
-          id: '5',
+          id: '3',
           name: '流程',
           children: [
-            { id: '5-1', name: '流程定义', link: '/processes/process-list' }
+            { id: '3-1', name: '流程定义', link: '/processes/process-list' }
           ]
         }
       ]
