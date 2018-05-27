@@ -6,6 +6,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>mCore.BuildingBlocks.EventBusServiceBus</RootNamespace>
   </PropertyGroup>
 
 </Project>
